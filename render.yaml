@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: autoyt-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: autoyt-data
+      mountPath: /data
+      sizeGB: 10 # 10GB persistent storage for your database and queued videos
+    envVars:
+      - key: DATA_DIR
+        value: /data
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      # Change this to your actual Render backend URL once deployed,
+      # e.g. https://autoyt-backend-xyz.onrender.com/auth/callback
+      - key: REDIRECT_URI
+        value: https://autoyt-backend.onrender.com/auth/callback
+
+  - type: web
+    name: autoyt-frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      # Change this to match your actual Render backend URL
+      - key: NEXT_PUBLIC_API_URL
+        value: https://autoyt-backend.onrender.com

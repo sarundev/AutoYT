@@ -32,19 +32,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+import os
+from datetime import datetime, timedelta
+
 # ── Paths ──────────────────────────────────────────────────────────────────────
 BASE_DIR      = Path(__file__).parent
-DATA_DIR      = BASE_DIR / "data"
+DATA_DIR      = Path(os.getenv("DATA_DIR", str(BASE_DIR / "data")))
 CHANNELS_FILE = DATA_DIR / "channels.json"
 UPLOADS_FILE  = DATA_DIR / "uploads.json"
 CONFIG_FILE   = DATA_DIR / "config.json"
 TEMP_DIR      = DATA_DIR / "temp"
-DATA_DIR.mkdir(exist_ok=True)
-TEMP_DIR.mkdir(exist_ok=True)
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+TEMP_DIR.mkdir(parents=True, exist_ok=True)
 
 SCOPES       = ["https://www.googleapis.com/auth/youtube.upload",
                 "https://www.googleapis.com/auth/youtube.readonly"]
-REDIRECT_URI = "http://localhost:8000/auth/callback"
+REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8000/auth/callback")
 VIDEO_EXTS   = {".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v", ".flv"}
 
 scheduler = AsyncIOScheduler()
