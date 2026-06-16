@@ -449,7 +449,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
               <input
                 ref={bulkInputRef} type="file"
                 // @ts-ignore - React doesn't perfectly type webkitdirectory
-                webkitdirectory="" directory="" multiple
+                webkitdirectory="true" directory="true" multiple
                 style={{ display: 'none' }} onChange={onBulkFolderChange}
               />
               {bulkFiles.length > 0 ? (
@@ -471,7 +471,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
                   <div style={{ fontSize: 32 }}>📁</div>
                   <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>Select a folder</div>
                   <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>All MP4, MOV, etc. will be queued alphabetically</div>
-                  <button className="btn btn-primary" onClick={() => bulkInputRef.current?.click()}>Choose Folder</button>
+                  <button type="button" className="btn btn-primary" onClick={() => bulkInputRef.current?.click()}>Choose Folder</button>
                 </div>
               )}
             </div>
